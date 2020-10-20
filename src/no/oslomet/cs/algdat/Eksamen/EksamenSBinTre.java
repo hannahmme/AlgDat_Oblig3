@@ -7,6 +7,19 @@ import java.util.Iterator;
 import java.util.StringJoiner;
 
 public class EksamenSBinTre<T> {
+
+    private Node<T> rot;                            // peker til rotnoden
+    private int antall;                             // antall noder
+    private int endringer;                          // antall endringer
+
+    private final Comparator<? super T> comp;       // komparator
+
+    public EksamenSBinTre(Comparator<? super T> c)    // konstruktoor
+    {
+        rot = null;
+        antall = 0;
+        comp = c;
+    }
     
     private static final class Node<T>{     // en indre nodeklasse
         private T verdi;                    // nodens verdi
@@ -33,26 +46,13 @@ public class EksamenSBinTre<T> {
 
     } // class Node
 
-    private Node<T> rot;                            // peker til rotnoden
-    private int antall;                             // antall noder
-    private int endringer;                          // antall endringer
-
-    private final Comparator<? super T> comp;       // komparator
-
-    public EksamenSBinTre(Comparator<? super T> c)    // konstruktoor
-    {
-        rot = null;
-        antall = 0;
-        comp = c;
-    }
-
     /**
      * Oppgave 1
      * @param verdi
      * @return
      */
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return false;
     }
 
     /**
