@@ -45,8 +45,9 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 1
-     * @param verdi
-     * @return
+     * @param verdi - verdi som skal legges inn i treet
+     * @return - returnerer true om alt går som det skal,
+     * false om verdi lik null.
      */
     public boolean leggInn(T verdi) {
         Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
@@ -66,22 +67,20 @@ public class EksamenSBinTre<T> {
         }
 
         //ute av while
-        currentNodeWeStandOn = new Node<T>(verdi, nextNode);
+        currentNodeWeStandOn = new Node<>(verdi, nextNode);
         if(nextNode == null) rot = currentNodeWeStandOn;
         else if(compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
         else nextNode.hooyre = currentNodeWeStandOn;
 
-        System.out.print(currentNodeWeStandOn.verdi + " ");
-
         antall++;
         return true;
-
     }
 
     /**
-     * Oppgave 2
-     * @param verdi
-     * @return
+     * Oppgave 2 (Ferdig kodet)
+     * @param verdi - Verdi skal sjekkes om ligger i treet eller ikke
+     * @return - returnerer false om verdi ikke finnes eller lik null,
+     * true ellers
      */
     public boolean inneholder(T verdi) {
         if (verdi == null) return false;
@@ -99,8 +98,8 @@ public class EksamenSBinTre<T> {
     }
 
     /**
-     * Oppgave 2
-     * @return
+     * Oppgave 2 (Ferdig kodet)
+     * @return - returnerer antall
      */
     public int antall() {
         return antall;
@@ -121,8 +120,9 @@ public class EksamenSBinTre<T> {
     }
 
     /**
-     * Oppgave 2
-     * @return
+     * Oppgave 2 (Ferdig kodet)
+     * @return - returnerer true om antall er lik 0,
+     * false ellers
      */
     public boolean tom() {
         return antall == 0;
@@ -130,11 +130,12 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 2
-     * @param verdi
-     * @return
+     * @param verdi - verdi som skal sjekkes hvor mange ganger
+     *              forekommer i treet.
+     * @return - returnerer antall forekomster av verdi i treet
      */
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return 0;
     }
 
     /**
