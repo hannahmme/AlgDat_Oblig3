@@ -47,6 +47,15 @@ public class EksamenSBinTre<T> {
     }
 
     /**
+     * Oppgave 1
+     * @param verdi
+     * @return
+     */
+    public boolean leggInn(T verdi) {
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+    }
+
+    /**
      * Oppgave 2
      * @param verdi
      * @return
@@ -94,16 +103,6 @@ public class EksamenSBinTre<T> {
      */
     public boolean tom() {
         return antall == 0;
-    }
-
-
-    /**
-     * Oppgave 1
-     * @param verdi
-     * @return
-     */
-    public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
     /**
