@@ -1,10 +1,7 @@
 package no.oslomet.cs.algdat.Eksamen;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class EksamenSBinTre<T> {
 
@@ -52,7 +49,33 @@ public class EksamenSBinTre<T> {
      * @return
      */
     public boolean leggInn(T verdi) {
-        return false;
+        Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
+
+        Node<T> currentNodeWeStandOn = rot;
+        Node<T> nextNode = null;
+        int compareValue = 0;
+
+        while(currentNodeWeStandOn != null){
+            nextNode = currentNodeWeStandOn;
+            compareValue = comp.compare(verdi, currentNodeWeStandOn.verdi);
+            if(compareValue < 0){
+                currentNodeWeStandOn = currentNodeWeStandOn.venstre;
+            }else{
+                currentNodeWeStandOn = currentNodeWeStandOn.hooyre;
+            }
+        }
+
+        //ute av while
+        currentNodeWeStandOn = new Node<T>(verdi, nextNode);
+        if(nextNode == null) rot = currentNodeWeStandOn;
+        else if(compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
+        else nextNode.hooyre = currentNodeWeStandOn;
+
+        System.out.print(currentNodeWeStandOn.verdi + " ");
+
+        antall++;
+        return true;
+
     }
 
     /**
@@ -201,6 +224,9 @@ public class EksamenSBinTre<T> {
 
 
     public static void main(String[] args) {
+
+/*
+        //Oppgave 0
         EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
         System.out.println(tre.antall());
 
@@ -210,7 +236,15 @@ public class EksamenSBinTre<T> {
         System.out.println(treChar.antall());
         EksamenSBinTre<Double> treDouble = new EksamenSBinTre<>(Comparator.naturalOrder());
         System.out.println(treDouble.antall());
+*/
 
+
+        //Oppgave 1
+        Integer[] a = {4,7,2,9,4,10,8,1,4,6};
+        EksamenSBinTre<Integer> treOppg1 = new EksamenSBinTre<>(Comparator.naturalOrder());
+        for(int verdi: a) treOppg1.leggInn(verdi);
+        System.out.println();
+        System.out.println(treOppg1.antall());
     }
 
 
