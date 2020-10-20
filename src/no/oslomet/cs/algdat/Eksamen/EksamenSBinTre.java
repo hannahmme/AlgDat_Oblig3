@@ -7,22 +7,22 @@ import java.util.Iterator;
 import java.util.StringJoiner;
 
 public class EksamenSBinTre<T> {
-    private static final class Node<T>   // en indre nodeklasse
-    {
-        private T verdi;                   // nodens verdi
-        private Node<T> venstre, høyre;    // venstre og høyre barn
-        private Node<T> forelder;          // forelder
+    
+    private static final class Node<T>{     // en indre nodeklasse
+        private T verdi;                    // nodens verdi
+        private Node<T> venstre, hooyre;    // venstre og hooyre barn
+        private Node<T> forelder;           // forelder
 
-        // konstruktør
+        // konstruktoor
         private Node(T verdi, Node<T> v, Node<T> h, Node<T> forelder) {
             this.verdi = verdi;
             venstre = v;
-            høyre = h;
+            hooyre = h;
             this.forelder = forelder;
         }
 
-        private Node(T verdi, Node<T> forelder)  // konstruktør
-        {
+        private Node(T verdi, Node<T> forelder){  // konstruktoor
+       
             this(verdi, null, null, forelder);
         }
 
@@ -39,13 +39,18 @@ public class EksamenSBinTre<T> {
 
     private final Comparator<? super T> comp;       // komparator
 
-    public EksamenSBinTre(Comparator<? super T> c)    // konstruktør
+    public EksamenSBinTre(Comparator<? super T> c)    // konstruktoor
     {
         rot = null;
         antall = 0;
         comp = c;
     }
 
+    /**
+     * Oppgave 2
+     * @param verdi
+     * @return
+     */
     public boolean inneholder(T verdi) {
         if (verdi == null) return false;
 
@@ -54,13 +59,17 @@ public class EksamenSBinTre<T> {
         while (p != null) {
             int cmp = comp.compare(verdi, p.verdi);
             if (cmp < 0) p = p.venstre;
-            else if (cmp > 0) p = p.høyre;
+            else if (cmp > 0) p = p.hooyre;
             else return true;
         }
 
         return false;
     }
 
+    /**
+     * Oppgave 2
+     * @return
+     */
     public int antall() {
         return antall;
     }
@@ -70,7 +79,7 @@ public class EksamenSBinTre<T> {
 
         StringJoiner s = new StringJoiner(", ", "[", "]");
 
-        Node<T> p = førstePostorden(rot); // går til den første i postorden
+        Node<T> p = foorstePostorden(rot); // gaar til den foorste i postorden
         while (p != null) {
             s.add(p.verdi.toString());
             p = nestePostorden(p);
@@ -79,57 +88,118 @@ public class EksamenSBinTre<T> {
         return s.toString();
     }
 
+    /**
+     * Oppgave 2
+     * @return
+     */
     public boolean tom() {
         return antall == 0;
     }
 
+
+    /**
+     * Oppgave 1
+     * @param verdi
+     * @return
+     */
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
-    public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
-    }
-
-    public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
-    }
-
+    /**
+     * Oppgave 2
+     * @param verdi
+     * @return
+     */
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
-    public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+    /**
+     * Oppgave 3
+     * @param p
+     * @param <T>
+     * @return
+     */
+    private static <T> Node<T> foorstePostorden(Node<T> p) {
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
-    private static <T> Node<T> førstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
-    }
-
+    /**
+     * Oppgave 3
+     * @param p
+     * @param <T>
+     * @return
+     */
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
+    /**
+     * Oppgave 4
+     * @param oppgave
+     */
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
+    /**
+     * Oppgave 4
+     * @param oppgave
+     */
     public void postordenRecursive(Oppgave<? super T> oppgave) {
         postordenRecursive(rot, oppgave);
     }
 
+
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
+    /**
+     * Oppgave 5
+     * @return
+     */
     public ArrayList<T> serialize() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
 
+    /**
+     * Oppgave 5
+     * @param data
+     * @param c
+     * @param <K>
+     * @return
+     */
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
     }
+
+    /**
+     * Oppgave 6
+     */
+    public void nullstill() {
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+    }
+
+    /**
+     * Oppgave 6
+     * @param verdi
+     * @return
+     */
+    public boolean fjern(T verdi) {
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+    }
+
+    /**
+     * Oppgave 6
+     * @param verdi
+     * @return
+     */
+    public int fjernAlle(T verdi) {
+        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+    }
+
 
     public static void main(String[] args) {
         EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
