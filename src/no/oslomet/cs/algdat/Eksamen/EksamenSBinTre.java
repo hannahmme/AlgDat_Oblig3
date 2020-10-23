@@ -171,7 +171,7 @@ public class EksamenSBinTre<T> {
      * @return
      */
     private static <T> Node<T> foorstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return new Node<>(null, null, null, null);
     }
 
     /**
