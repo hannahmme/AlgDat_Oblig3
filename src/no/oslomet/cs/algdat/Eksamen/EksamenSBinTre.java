@@ -56,6 +56,12 @@ public class EksamenSBinTre<T> {
         Node<T> nextNode = null;
         int compareValue = 0;
 
+        //Så lenge noden vi er på har en verdi, sjekker vi om verdien vi skal sette
+        //inn i treet er større eller mindre enn node-verdien vi er på.
+        //Er den større, går vi til høyre barnenode
+        //Er den mindre, går vi til venstre barnenode
+        //Dersom venstre eller høyre barnenode ikke har verdi, går vi ut av
+        //while-løkken
         while(currentNodeWeStandOn != null){
             nextNode = currentNodeWeStandOn;
             compareValue = comp.compare(verdi, currentNodeWeStandOn.verdi);
@@ -67,6 +73,7 @@ public class EksamenSBinTre<T> {
         }
 
         //ute av while
+        //Her opprettes det en ny node i treet
         currentNodeWeStandOn = new Node<>(verdi, nextNode);
         if(nextNode == null) rot = currentNodeWeStandOn;
         else if(compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
@@ -79,7 +86,7 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 2 (Ferdig kodet)
      * @param verdi - Verdi skal sjekkes om ligger i treet eller ikke
-     * @return - returnerer false om verdi ikke finnes eller lik null,
+     * @return - returnerer false om verdi ikke finnes eller er lik null,
      * true ellers
      */
     public boolean inneholder(T verdi) {
@@ -135,7 +142,21 @@ public class EksamenSBinTre<T> {
      * @return - returnerer antall forekomster av verdi i treet
      */
     public int antall(T verdi) {
-        return 0;
+        Node<T> nodeViErPaa = rot;
+        int antallForekomster = 0;
+        int compareAnswer;
+
+        while(nodeViErPaa != null) {
+            compareAnswer = comp.compare(verdi, nodeViErPaa.verdi);
+
+            if (compareAnswer == 0) nodeViErPaa = nodeViErPaa.hooyre; antallForekomster++;
+
+            if (compareAnswer > 0) nodeViErPaa = nodeViErPaa.hooyre;
+
+            else nodeViErPaa = nodeViErPaa.venstre;
+
+        }
+        return antallForekomster;
     }
 
     /**
@@ -241,11 +262,17 @@ public class EksamenSBinTre<T> {
 
 
         //Oppgave 1
-        Integer[] a = {4,7,2,9,4,10,8,1,4,6};
+  /*      Integer[] a = {4,7,2,9,4,10,8,1,4,6};
         EksamenSBinTre<Integer> treOppg1 = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi: a) treOppg1.leggInn(verdi);
         System.out.println();
-        System.out.println(treOppg1.antall());
+        System.out.println(treOppg1.antall());*/
+
+        //Oppgave 2
+        Integer[] oppg2List = {1,2,3,1,2,3};
+        EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
+        for(int verdi : oppg2List) treOppg2.leggInn(verdi);
+        System.out.println(treOppg2.antall(1));
     }
 
 
