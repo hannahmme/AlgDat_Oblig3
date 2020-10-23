@@ -17,7 +17,7 @@ public class EksamenSBinTre<T> {
         antall = 0;
         comp = c;
     }
-    
+
     private static final class Node<T>{     // en indre nodeklasse
         private T verdi;                    // nodens verdi
         private Node<T> venstre, hooyre;    // venstre og hooyre barn
@@ -80,6 +80,7 @@ public class EksamenSBinTre<T> {
         else nextNode.hooyre = currentNodeWeStandOn;
 
         antall++;
+        endringer++;
         return true;
     }
 
@@ -166,12 +167,18 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 3
-     * @param p
-     * @param <T>
-     * @return
+     * @param p - p er rot
+     * @param <T> - generisk datatype
+     * @return - skal returnere første node i postorden
      */
     private static <T> Node<T> foorstePostorden(Node<T> p) {
-        return new Node<>(null, null, null, null);
+        if(p == null){
+            return null;
+        }
+      foorstePostorden(p.venstre);
+      foorstePostorden(p.hooyre);
+        System.out.print(p.verdi + " ");
+      return p;
     }
 
     /**
@@ -278,6 +285,10 @@ public class EksamenSBinTre<T> {
         EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi : oppg2List) treOppg2.leggInn(verdi);
         System.out.println(treOppg2.antall(1));
+
+        //Oppgave 3
+        foorstePostorden(treOppg2.rot);
+
     }
 
 
