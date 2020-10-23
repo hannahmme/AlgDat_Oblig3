@@ -140,21 +140,26 @@ public class EksamenSBinTre<T> {
      * @param verdi - verdi som skal sjekkes hvor mange ganger
      *              forekommer i treet.
      * @return - returnerer antall forekomster av verdi i treet
+     * Kilde: https://www.cs.hioa.no/~ulfu/appolonius/kap5/2/fasit526.html
+     * (Fikk litt hjelp fra kompendium)
      */
     public int antall(T verdi) {
         Node<T> nodeViErPaa = rot;
         int antallForekomster = 0;
         int compareAnswer;
 
+        //Så lenge noden i treet har en verdi, sjekker vi verdien opp mot den
         while(nodeViErPaa != null) {
             compareAnswer = comp.compare(verdi, nodeViErPaa.verdi);
 
-            if (compareAnswer == 0) nodeViErPaa = nodeViErPaa.hooyre; antallForekomster++;
+            //Er verdien mindre enn nodens verdi, går vi til venstre barnenode
+            if (compareAnswer < 0) nodeViErPaa = nodeViErPaa.venstre;
 
-            if (compareAnswer > 0) nodeViErPaa = nodeViErPaa.hooyre;
-
-            else nodeViErPaa = nodeViErPaa.venstre;
-
+            //Hvis verdien er lik, legges det til i telleren +1 og
+            //vi flytter oss til høyre barnenode
+            else{
+                if(compareAnswer == 0) antallForekomster++; nodeViErPaa = nodeViErPaa.hooyre;
+            }
         }
         return antallForekomster;
     }
