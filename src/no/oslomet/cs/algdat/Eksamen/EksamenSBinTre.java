@@ -18,7 +18,7 @@ public class EksamenSBinTre<T> {
         comp = c;
     }
 
-    private static final class Node<T>{     // en indre nodeklasse
+    private static final class Node<T> {     // en indre nodeklasse
         private T verdi;                    // nodens verdi
         private Node<T> venstre, hooyre;    // venstre og hooyre barn
         private Node<T> forelder;           // forelder
@@ -31,8 +31,8 @@ public class EksamenSBinTre<T> {
             this.forelder = forelder;
         }
 
-        private Node(T verdi, Node<T> forelder){  // konstruktoor
-       
+        private Node(T verdi, Node<T> forelder) {  // konstruktoor
+
             this(verdi, null, null, forelder);
         }
 
@@ -45,6 +45,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 1
+     *
      * @param verdi - verdi som skal legges inn i treet
      * @return - returnerer true om alt går som det skal,
      * false om verdi lik null.
@@ -62,12 +63,12 @@ public class EksamenSBinTre<T> {
         //Er den mindre, går vi til venstre barnenode
         //Dersom venstre eller høyre barnenode ikke har verdi, går vi ut av
         //while-løkken
-        while(currentNodeWeStandOn != null){
+        while (currentNodeWeStandOn != null) {
             nextNode = currentNodeWeStandOn;
             compareValue = comp.compare(verdi, currentNodeWeStandOn.verdi);
-            if(compareValue < 0){
+            if (compareValue < 0) {
                 currentNodeWeStandOn = currentNodeWeStandOn.venstre;
-            }else{
+            } else {
                 currentNodeWeStandOn = currentNodeWeStandOn.hooyre;
             }
         }
@@ -75,8 +76,8 @@ public class EksamenSBinTre<T> {
         //ute av while
         //Her opprettes det en ny node i treet
         currentNodeWeStandOn = new Node<>(verdi, nextNode);
-        if(nextNode == null) rot = currentNodeWeStandOn;
-        else if(compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
+        if (nextNode == null) rot = currentNodeWeStandOn;
+        else if (compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
         else nextNode.hooyre = currentNodeWeStandOn;
 
         antall++;
@@ -86,6 +87,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 2 (Ferdig kodet)
+     *
      * @param verdi - Verdi skal sjekkes om ligger i treet eller ikke
      * @return - returnerer false om verdi ikke finnes eller er lik null,
      * true ellers
@@ -107,6 +109,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 2 (Ferdig kodet)
+     *
      * @return - returnerer antall
      */
     public int antall() {
@@ -129,6 +132,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 2 (Ferdig kodet)
+     *
      * @return - returnerer true om antall er lik 0,
      * false ellers
      */
@@ -138,6 +142,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 2
+     *
      * @param verdi - verdi som skal sjekkes hvor mange ganger
      *              forekommer i treet.
      * @return - returnerer antall forekomster av verdi i treet
@@ -150,16 +155,17 @@ public class EksamenSBinTre<T> {
         int compareAnswer;
 
         //Så lenge noden i treet har en verdi, sjekker vi verdien opp mot den
-        while(nodeViErPaa != null) {
+        while (nodeViErPaa != null) {
             compareAnswer = comp.compare(verdi, nodeViErPaa.verdi);
 
             //Er verdien mindre enn nodens verdi, går vi til venstre barnenode
             if (compareAnswer < 0) nodeViErPaa = nodeViErPaa.venstre;
 
-            //Hvis verdien er lik, legges det til i telleren +1 og
-            //vi flytter oss til høyre barnenode
-            else{
-                if(compareAnswer == 0) antallForekomster++; nodeViErPaa = nodeViErPaa.hooyre;
+                //Hvis verdien er lik, legges det til i telleren +1 og
+                //vi flytter oss til høyre barnenode
+            else {
+                if (compareAnswer == 0) antallForekomster++;
+                nodeViErPaa = nodeViErPaa.hooyre;
             }
         }
         return antallForekomster;
@@ -167,7 +173,8 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 3
-     * @param p - p er rot
+     *
+     * @param p   - p er rot
      * @param <T> - generisk datatype
      * @return - skal returnere første node i postorden
      * Inspirasjon programkode 5.1.7 h) : https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#5.1.7
@@ -177,23 +184,29 @@ public class EksamenSBinTre<T> {
             //hvis det finnes et venstrebarn, gå til venstre
             if (p.venstre != null) p = p.venstre;
 
-            //hvis ikke venstre, sjekk om det finnes et høyrebarn, gå til høyre
+                //hvis ikke venstre, sjekk om det finnes et høyrebarn, gå til høyre
             else if (p.hooyre != null) p = p.hooyre;
 
-            //hvis ingen av delene, returner noden (den første helt til venstre)
+                //hvis ingen av delene, returner noden (den første helt til venstre)
             else return p;
         }
     }
 
     /**
      * Oppgave 3
-     * @param p
-     * @param <T>
-     * @return
+     *
+     * @param p - rot
+     * @param <T> - generisk datatype
+     * @return - returnerer neste noden i rekken etter første node i postorden
      */
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
-    }
+        for (int i = 0; i <= 4; i++) {
+            if (p.venstre != null) p = p.venstre;
+            else if (p.hooyre != null) p = p.hooyre;
+            else p = p.forelder;
+        }
+    return p;
+}
 
     /**
      * Oppgave 4
@@ -293,6 +306,8 @@ public class EksamenSBinTre<T> {
         //Oppgave 3
         System.out.println(foorstePostorden(treOppg2.rot));
 
+        System.out.println("Neste-post-orden");
+        System.out.println(nestePostorden(treOppg2.rot));
     }
 
 
