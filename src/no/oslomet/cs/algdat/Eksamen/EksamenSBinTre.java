@@ -195,18 +195,30 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 3
      *
-     * @param p - rot
+     * @param p   - rot
      * @param <T> - generisk datatype
      * @return - returnerer neste noden i rekken etter første node i postorden
      */
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        for (int i = 0; i <= 4; i++) {
-            if (p.venstre != null) p = p.venstre;
-            else if (p.hooyre != null) p = p.hooyre;
-            else p = p.forelder;
+        Node<T> foorsteNodePostOrden = foorstePostorden(p);
+        Node<T> nodeForelder = foorsteNodePostOrden.forelder;
+
+        while (nodeForelder != null && nodeForelder.venstre == foorsteNodePostOrden) {
+            nodeForelder = nodeForelder.forelder;
+            foorsteNodePostOrden = foorsteNodePostOrden.forelder;
         }
-    return p;
-}
+
+        if (nodeForelder != null) {
+            return nodeForelder.venstre;
+        }
+        else return null;
+    }
+      /*  Node<T> foorsteNode = foorstePostorden(p);
+        Node<T> nodeViErPaa = foorsteNode.forelder;
+
+        while(nodeViErPaa.forelder != null &&  )*/
+
+
 
     /**
      * Oppgave 4
@@ -298,7 +310,7 @@ public class EksamenSBinTre<T> {
         System.out.println(treOppg1.antall());*/
 
         //Oppgave 2
-        Integer[] oppg2List = {1,2,3,1,2,3};
+        Integer[] oppg2List = {1,2,3,1};
         EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi : oppg2List) treOppg2.leggInn(verdi);
         System.out.println(treOppg2.antall(1));
