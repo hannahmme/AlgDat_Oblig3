@@ -170,15 +170,19 @@ public class EksamenSBinTre<T> {
      * @param p - p er rot
      * @param <T> - generisk datatype
      * @return - skal returnere første node i postorden
+     * Inspirasjon programkode 5.1.7 h) : https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#5.1.7
      */
     private static <T> Node<T> foorstePostorden(Node<T> p) {
-        if(p == null){
-            return null;
+        while (true) {
+            //hvis det finnes et venstrebarn, gå til venstre
+            if (p.venstre != null) p = p.venstre;
+
+            //hvis ikke venstre, sjekk om det finnes et høyrebarn, gå til høyre
+            else if (p.hooyre != null) p = p.hooyre;
+
+            //hvis ingen av delene, returner noden (den første helt til venstre)
+            else return p;
         }
-      foorstePostorden(p.venstre);
-      foorstePostorden(p.hooyre);
-        System.out.print(p.verdi + " ");
-      return p;
     }
 
     /**
@@ -287,7 +291,7 @@ public class EksamenSBinTre<T> {
         System.out.println(treOppg2.antall(1));
 
         //Oppgave 3
-        foorstePostorden(treOppg2.rot);
+        System.out.println(foorstePostorden(treOppg2.rot));
 
     }
 
