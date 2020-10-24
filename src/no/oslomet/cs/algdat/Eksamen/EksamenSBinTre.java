@@ -240,7 +240,7 @@ public class EksamenSBinTre<T> {
             Node<T> foreldreNode = p.forelder;
 
             //Hvis det finnes en foreldrenode og noden vi er på er et høyrebarn,
-            // vil den neste i postOrden være foreldrenoden
+            //vil den neste i postOrden være foreldrenoden
             if (foreldreNode.hooyre == p) {
                 return foreldreNode;
             }
@@ -251,10 +251,36 @@ public class EksamenSBinTre<T> {
                 return foreldreNode;
             }
 
-            //Hvis noden vi er er et venstrebarn og det finnes et høyrebarn, er
-            //høyrebarnet den neste i postOrden
+            //Hvis noden vi er på er et venstrebarn, og det finnes et høyrebarn
+            //går vi inn og sjekker om dette høyrebarnet har flere barn
             else if (foreldreNode.hooyre != null && foreldreNode.venstre == p) {
-                return foreldreNode.hooyre;
+
+                //flytter noden vi er på, til det høyre barnet
+                foreldreNode = foreldreNode.hooyre;
+
+                //hvis noden vi står på har venstrebarn, følger vi
+                //alle venstre barn til det ikke er flere
+                if(foreldreNode.venstre != null) {
+                    while (foreldreNode.venstre != null) {
+                        foreldreNode = foreldreNode.venstre;
+                    }
+                    //returnerer det nederste, venstre barnet
+                    return foreldreNode;
+                }
+
+                //hvis noden vi er på har høyrebarn, følger vi
+                //alle høyre barn til det ikke er flere
+                else if(foreldreNode.hooyre != null){
+                    while(foreldreNode.hooyre != null){
+                        foreldreNode = foreldreNode.hooyre;
+                    }
+                    //returnerer det nederste, høyre barnet
+                    return foreldreNode;
+                }
+
+                //hvis det kun er et høyre nodebarn som ikke har noen flere barn
+                //er denne i seg selv den neste
+                else return foreldreNode;
             }
         }
         //Returnerer null da p er rotnoden (siste i postOrden)
