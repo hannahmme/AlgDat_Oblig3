@@ -294,7 +294,7 @@ public class EksamenSBinTre<T> {
      * @param oppgave
      */
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        
     }
 
     /**
