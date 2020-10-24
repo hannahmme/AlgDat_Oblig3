@@ -1,6 +1,7 @@
 package no.oslomet.cs.algdat.Eksamen;
 
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class EksamenSBinTre<T> {
@@ -116,6 +117,37 @@ public class EksamenSBinTre<T> {
         return antall;
     }
 
+
+    /**
+     * Hjelpemetode for å debugge oppgave 3. Midlertidig
+     *
+     * @param rot - tar inn rot som er startpunktet for traversering
+     * @param <T> - generisk datatype
+     */
+    public static <T> void printLevelOrder(Node<T> rot) {
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+
+        //legg til rot-noden
+        queue.addLast(rot);
+
+        //så lenge køen ikke er tom
+        while (!queue.isEmpty()) {
+            //Punkt 1: Ta ut første fra køen
+            Node current = queue.removeFirst();
+
+            //Punkt 2: Legg til current sine to barn til køen
+            if (current.venstre != null) {
+                queue.addLast(current.venstre);
+            }
+            if (current.hooyre != null) {
+                queue.addLast(current.hooyre);
+            }
+
+            //Punkt 3: Skriv ut
+            System.out.print(current.verdi + " ");
+        }
+    }
+
     public String toStringPostOrder() {
         if (tom()) return "[]";
 
@@ -198,30 +230,41 @@ public class EksamenSBinTre<T> {
      * @param p   - rot
      * @param <T> - generisk datatype
      * @return - returnerer neste noden i rekken etter første node i postorden
+     * Inspirasjon hentet fra 5.1.7: https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#kode.5.1.7.h
      */
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        Node<T> foorsteNodePostOrden = foorstePostorden(p);
-        Node<T> nodeForelder = foorsteNodePostOrden.forelder;
 
-        while (nodeForelder != null && nodeForelder.venstre == foorsteNodePostOrden) {
-            nodeForelder = nodeForelder.forelder;
-            foorsteNodePostOrden = foorsteNodePostOrden.forelder;
-        }
+        //Sjekker om noden har en foreldrenode. Har den ikke det,
+        //går den ikke inn i if-en og metoden returnerer null
+        if (p.forelder != null) {
+            Node<T> foreldreNode = p.forelder;
 
-        if (nodeForelder != null) {
-            return nodeForelder.venstre;
+            //Hvis det finnes en foreldrenode og noden vi er på er et høyrebarn,
+            // vil den neste i postOrden være foreldrenoden
+            if (foreldreNode.hooyre == p) {
+                return foreldreNode;
+            }
+
+            //Hvis noden vi er på er et venstrebarn og høyrebarn ikke finnes,
+            //er foreldrenoden neste i postOrden
+            else if (foreldreNode.hooyre == null && foreldreNode.venstre == p) {
+                return foreldreNode;
+            }
+
+            //Hvis noden vi er er et venstrebarn og det finnes et høyrebarn, er
+            //høyrebarnet den neste i postOrden
+            else if (foreldreNode.hooyre != null && foreldreNode.venstre == p) {
+                return foreldreNode.hooyre;
+            }
         }
-        else return null;
+        //Returnerer null da p er rotnoden (siste i postOrden)
+        return null;
     }
-      /*  Node<T> foorsteNode = foorstePostorden(p);
-        Node<T> nodeViErPaa = foorsteNode.forelder;
-
-        while(nodeViErPaa.forelder != null &&  )*/
-
 
 
     /**
      * Oppgave 4
+     *
      * @param oppgave
      */
     public void postorden(Oppgave<? super T> oppgave) {
@@ -230,6 +273,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 4
+     *
      * @param oppgave
      */
     public void postordenRecursive(Oppgave<? super T> oppgave) {
@@ -243,6 +287,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 5
+     *
      * @return
      */
     public ArrayList<T> serialize() {
@@ -251,6 +296,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 5
+     *
      * @param data
      * @param c
      * @param <K>
@@ -269,6 +315,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 6
+     *
      * @param verdi
      * @return
      */
@@ -278,6 +325,7 @@ public class EksamenSBinTre<T> {
 
     /**
      * Oppgave 6
+     *
      * @param verdi
      * @return
      */
@@ -310,17 +358,28 @@ public class EksamenSBinTre<T> {
         System.out.println(treOppg1.antall());*/
 
         //Oppgave 2
-        Integer[] oppg2List = {1,2,3,1};
+        Integer[] oppg2List = {10};
         EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        for(int verdi : oppg2List) treOppg2.leggInn(verdi);
+        for (int verdi : oppg2List) treOppg2.leggInn(verdi);
+        System.out.println("Antall forekomster av tallet 1");
         System.out.println(treOppg2.antall(1));
 
+        Integer[] oppg3List = {6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
+        for (int verdi : oppg3List) treOppg2.leggInn(verdi);
+
         //Oppgave 3
+        System.out.println("Første post-orden");
         System.out.println(foorstePostorden(treOppg2.rot));
 
         System.out.println("Neste-post-orden");
-        System.out.println(nestePostorden(treOppg2.rot));
+        System.out.println(nestePostorden(treOppg2.rot.venstre.hooyre.venstre));
+        System.out.println();
+
+        System.out.println("Treet skrevet ut i post-orden");
+        System.out.println(treOppg2.toStringPostOrder());
+
+        printLevelOrder(treOppg2.rot);
+
     }
-
-
 } // ObligSBinTre
+
