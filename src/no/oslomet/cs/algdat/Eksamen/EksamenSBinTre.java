@@ -364,7 +364,7 @@ public class EksamenSBinTre<T> {
      * @return
      */
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return null;
     }
 
     /**
