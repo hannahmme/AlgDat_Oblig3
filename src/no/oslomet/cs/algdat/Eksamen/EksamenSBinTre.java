@@ -291,10 +291,61 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 4
      *
-     * @param oppgave
+     * @param oppgave - tar imot en oppgave som ber om
+     *                å skrive ut treet i post orden
      */
     public void postorden(Oppgave<? super T> oppgave) {
-        
+        if(this.rot == null){
+            return;
+        }
+        Node<T> foreldreNode = rot;
+
+        if(foreldreNode.venstre == null && foreldreNode.hooyre == null){
+            return;
+        }
+        //hvis det er et venstre barn, gå inn i venstre subtre
+        if(foreldreNode.venstre != null) {
+            while (foreldreNode.venstre != null) {
+                foreldreNode = foreldreNode.venstre;
+            }
+            if (foreldreNode.hooyre == null) {
+                oppgave.utførOppgave(foreldreNode.verdi);
+            }
+            //hvis det er et høyre barn, gå inn i høyre subtre
+            else {
+            //flytter oss så foreldrenoden blir den høyre noden
+            foreldreNode = foreldreNode.hooyre;
+            if(foreldreNode.venstre != null){
+                while(foreldreNode.venstre != null){
+                    foreldreNode = foreldreNode.venstre;
+                }
+            }
+        }
+
+
+
+            //hvis denne høyre noden har et venstrebarn,
+            //følg det venstre subtreet helt til siste venstrebarn
+            if(foreldreNode.venstre != null){
+                while(foreldreNode.venstre != null){
+                    foreldreNode = foreldreNode.venstre;
+                }
+                oppgave.utførOppgave(foreldreNode.verdi);
+
+            //dersom det er et høyrebarn, følg det høyre
+            //subtreet helt til det siste høyrebarnet
+            }else if (foreldreNode.hooyre != null){
+                while(foreldreNode.hooyre != null){
+                    foreldreNode = foreldreNode.hooyre;
+                }
+                oppgave.utførOppgave(foreldreNode.verdi);
+            }
+            else{
+                //noden har ingen barn
+                oppgave.utførOppgave(foreldreNode.verdi);
+            }
+        }
+
     }
 
     /**
