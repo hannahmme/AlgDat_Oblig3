@@ -170,6 +170,7 @@ public class EksamenSBinTre<T> {
         return antall == 0;
     }
 
+
     /**
      * Oppgave 2
      *
@@ -335,27 +336,33 @@ public class EksamenSBinTre<T> {
 
         //legg til rot-noden
         koo.addLast(rot);
+        antall++;
+        endringer++;
 
         //så lenge køen ikke er tom
         while(!koo.isEmpty()){
             //Punkt 1: Ta ut første fra køen
             Node<T> midlertidig = koo.removeFirst();
+            antall--;
+            endringer++;
 
             //Punkt 2: Legg til midlertidig sine to barn til køen
             if(midlertidig.venstre != null){
                 koo.addLast(midlertidig.venstre);
+                antall++;
+                endringer++;
             }
 
             if(midlertidig.hooyre != null){
                 koo.addLast(midlertidig.hooyre);
+                antall++;
+                endringer--;
             }
 
             //Punkt 3: Legg til verdien i listen
             serialisertNodeListe.add(midlertidig.verdi);
-        }
-
-        for(Object verdi : serialisertNodeListe){
-            System.out.print(verdi + ", ");
+            antall++;
+            endringer++;
         }
         return serialisertNodeListe;
     }
@@ -370,7 +377,7 @@ public class EksamenSBinTre<T> {
      */
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
         EksamenSBinTre<K> deserialisertTre = new EksamenSBinTre<>(c);
-        Node<K> nodeViErPaa;
+        Node<K> midlertidigNode;
 
         //Lager en for-each-løkke så vi kan gå
         //gjennom alle verdiene i arraylisten
@@ -383,48 +390,60 @@ public class EksamenSBinTre<T> {
             //setter vi første verdi fra listen lik rot
             if(deserialisertTre.rot == null){
                 deserialisertTre.rot = node;
+
+                //oppdaterer endringer og antall
+                deserialisertTre.antall++;
+                deserialisertTre.endringer++;
             }else {
 
                 //midlertidig node/teller
-                nodeViErPaa = node;
+                midlertidigNode = deserialisertTre.rot;
                 boolean sattInn = false;
                 while (sattInn == false){
                     //sjekker om verdien i listen er større og/eller lik, eller mindre enn
                     //noden vi er på
-                    int retning = c.compare(node.verdi, nodeViErPaa.verdi);
+                    int retning = c.compare(node.verdi, midlertidigNode.verdi);
 
                     //hvis den er større og/eller lik, går vi til høyre
                     if(retning >= 0) {
 
                         //dersom noden til høyre ikke har noen verdi,
                         //settes denne lik noden
-                        if(nodeViErPaa.hooyre == null){
-                            nodeViErPaa.hooyre = node; //sett inn her
-                            node.forelder = nodeViErPaa;
+                        if(midlertidigNode.hooyre == null){
+                            midlertidigNode.hooyre = node; //sett inn her
+                            node.forelder = midlertidigNode;
                             sattInn = true;
+
+                            //legger til antall og endringer
+                            deserialisertTre.antall++;
+                            deserialisertTre.endringer++;
                         }else{
                             //høyre har barn, vi flytter oss til det høyre barnet
                             //og sjekker i neste iterasjon om vi skal til høyre eller venstre
-                            nodeViErPaa = nodeViErPaa.hooyre;
+                            midlertidigNode = midlertidigNode.hooyre;
                         }
                     }else{
 
                         //dersom noden til venstre ikke har noen verdi,
                         //settes denne lik noden
-                        if(nodeViErPaa.venstre == null){
-                            nodeViErPaa.venstre = node; //setter inn her
-                            node.forelder = nodeViErPaa;
+                        if(midlertidigNode.venstre == null){
+                            midlertidigNode.venstre = node; //setter inn her
+                            node.forelder = midlertidigNode;
                             sattInn = true;
+
+                            //legger til antall og endringer
+                            deserialisertTre.antall++;
+                            deserialisertTre.endringer++;
                         }else{
                             //dersom det er et venstrebarn, flytter vi oss videre til venstre
                             //og sjekker i neste iterasjon om vi skal gå til høyre eller venstre
-                            nodeViErPaa = nodeViErPaa.venstre;
+                            midlertidigNode = midlertidigNode.venstre;
                         }
                     }
                 }
             }
         }
-        return null;
+        return deserialisertTre;
     }
 
     /**
@@ -456,8 +475,8 @@ public class EksamenSBinTre<T> {
 
 
     public static void main(String[] args) {
-
 /*
+*//*
         //Oppgave 0
         EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
         System.out.println(tre.antall());
@@ -468,15 +487,15 @@ public class EksamenSBinTre<T> {
         System.out.println(treChar.antall());
         EksamenSBinTre<Double> treDouble = new EksamenSBinTre<>(Comparator.naturalOrder());
         System.out.println(treDouble.antall());
-*/
+*//*
 
 
         //Oppgave 1
-  /*      Integer[] a = {4,7,2,9,4,10,8,1,4,6};
+  *//*      Integer[] a = {4,7,2,9,4,10,8,1,4,6};
         EksamenSBinTre<Integer> treOppg1 = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi: a) treOppg1.leggInn(verdi);
         System.out.println();
-        System.out.println(treOppg1.antall());*/
+        System.out.println(treOppg1.antall());*//*
 
         //Oppgave 2
         Integer[] oppg2List = {11,24,1,2,4,5};
@@ -499,19 +518,30 @@ public class EksamenSBinTre<T> {
         System.out.println("Treet skrevet ut i post-orden");
         //System.out.println(treOppg2.toStringPostOrder());
 
-        //printLevelOrder(treOppg2.rot);
+        //printLevelOrder(treOppg2.rot);*/
 
-        System.out.println("Serialisering: ");
+
        // treOppg2.serialize();
 
         EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        int[] a = {1,2,3,1,2,3};
+        int[] a = {5,2,9,10,4};
         for(int verdi : a) treOppg5.leggInn(verdi);
 
+        System.out.println();
+
+        System.out.println("Serialisert på nivåorden: ");
         ArrayList<Integer> treOppg5Serialize = treOppg5.serialize();
+        System.out.println(treOppg5Serialize);
+
+
+        System.out.println("\n");
         EksamenSBinTre<Integer> treOppg5Deserialize = EksamenSBinTre.deserialize(treOppg5Serialize, Comparator.naturalOrder());
+        System.out.println("DEtte er den som ikke er forståelig:");
         System.out.println(treOppg5Deserialize);
 
+
+        System.out.println("Print level order treOppg5Deserialize : ");
+        printLevelOrder(treOppg5Deserialize.rot);
 
 
 
