@@ -330,7 +330,29 @@ public class EksamenSBinTre<T> {
      * @return
      */
     public ArrayList<T> serialize() {
-        return new ArrayList<>(); 
+        ArrayDeque<Node> koo = new ArrayDeque<>();
+        ArrayList<T> serialisertNodeListe = new ArrayList<>();
+
+        //legg til rot-noden
+        koo.addLast(rot);
+
+        //så lenge køen ikke er tom
+        while(!koo.isEmpty()){
+            //Punkt 1: Ta ut første fra køen
+            Node midlertidig = koo.removeFirst();
+
+            //Punkt 2: Legg til midlertidig sine to barn til køen
+            if(midlertidig.venstre != null){
+                koo.addLast(midlertidig.venstre);
+            }
+            if(midlertidig.hooyre != null){
+                koo.addLast(midlertidig.hooyre);
+            }
+
+            //Punkt 3: Legg til verdien i listen
+            serialisertNodeListe.add((T) midlertidig.verdi);
+        }
+        return serialisertNodeListe;
     }
 
     /**
