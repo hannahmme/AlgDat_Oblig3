@@ -312,8 +312,19 @@ public class EksamenSBinTre<T> {
     }
 
 
+    /**
+     * Oppgave 4
+     *
+     * @param p - Vilkårlig node som man starter å traversere på
+     * @param oppgave - Oppgave av interfacet Oppgave
+     */
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        
+        if(p == null){
+            return;
+        }
+        postordenRecursive(p.venstre, oppgave);
+        postordenRecursive(p.hooyre, oppgave);
+        oppgave.utførOppgave(p.verdi);
     }
 
     /**
