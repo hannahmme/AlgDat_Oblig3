@@ -345,6 +345,7 @@ public class EksamenSBinTre<T> {
             if(midlertidig.venstre != null){
                 koo.addLast(midlertidig.venstre);
             }
+
             if(midlertidig.hooyre != null){
                 koo.addLast(midlertidig.hooyre);
             }
@@ -352,9 +353,9 @@ public class EksamenSBinTre<T> {
             //Punkt 3: Legg til verdien i listen
             serialisertNodeListe.add(midlertidig.verdi);
         }
-        //deserialize(serialisertNodeListe, comp);
+
         for(Object verdi : serialisertNodeListe){
-            System.out.print(verdi + " ");
+            System.out.print(verdi + ", ");
         }
         return serialisertNodeListe;
     }
@@ -369,10 +370,58 @@ public class EksamenSBinTre<T> {
      */
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
         EksamenSBinTre<K> deserialisertTre = new EksamenSBinTre<>(c);
-        for(int i = data.size(); i > 0; i--){
-            if(deserialisertTre.rot == null) {
-                deserialisertTre.rot = (Node<K>) data.get(i);
+        Node<K> nodeViErPaa;
 
+        //Lager en for-each-løkke så vi kan gå
+        //gjennom alle verdiene i arraylisten
+        for(K verdi : data){
+
+            //Oppretter en node med verdi fra listen
+            Node<K> node = new Node<>(verdi, null, null, null);
+
+            //Dersom rotnoden ikke er blitt fylt inn,
+            //setter vi første verdi fra listen lik rot
+            if(deserialisertTre.rot == null){
+                deserialisertTre.rot = node;
+            }else {
+
+                //midlertidig node/teller
+                nodeViErPaa = node;
+                boolean sattInn = false;
+                while (sattInn == false){
+                    //sjekker om verdien i listen er større og/eller lik, eller mindre enn
+                    //noden vi er på
+                    int retning = c.compare(node.verdi, nodeViErPaa.verdi);
+
+                    //hvis den er større og/eller lik, går vi til høyre
+                    if(retning >= 0) {
+
+                        //dersom noden til høyre ikke har noen verdi,
+                        //settes denne lik noden
+                        if(nodeViErPaa.hooyre == null){
+                            nodeViErPaa.hooyre = node; //sett inn her
+                            node.forelder = nodeViErPaa;
+                            sattInn = true;
+                        }else{
+                            //høyre har barn, vi flytter oss til det høyre barnet
+                            //og sjekker i neste iterasjon om vi skal til høyre eller venstre
+                            nodeViErPaa = nodeViErPaa.hooyre;
+                        }
+                    }else{
+
+                        //dersom noden til venstre ikke har noen verdi,
+                        //settes denne lik noden
+                        if(nodeViErPaa.venstre == null){
+                            nodeViErPaa.venstre = node; //setter inn her
+                            node.forelder = nodeViErPaa;
+                            sattInn = true;
+                        }else{
+                            //dersom det er et venstrebarn, flytter vi oss videre til venstre
+                            //og sjekker i neste iterasjon om vi skal gå til høyre eller venstre
+                            nodeViErPaa = nodeViErPaa.venstre;
+                        }
+                    }
+                }
             }
         }
         return null;
@@ -453,7 +502,17 @@ public class EksamenSBinTre<T> {
         //printLevelOrder(treOppg2.rot);
 
         System.out.println("Serialisering: ");
-        treOppg2.serialize();
+       // treOppg2.serialize();
+
+        EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
+        int[] a = {1,2,3,1,2,3};
+        for(int verdi : a) treOppg5.leggInn(verdi);
+
+        ArrayList<Integer> treOppg5Serialize = treOppg5.serialize();
+        EksamenSBinTre<Integer> treOppg5Deserialize = EksamenSBinTre.deserialize(treOppg5Serialize, Comparator.naturalOrder());
+        System.out.println(treOppg5Deserialize);
+
+
 
 
 
