@@ -450,7 +450,7 @@ public class EksamenSBinTre<T> {
      * Oppgave 6
      */
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+
     }
 
     /**
