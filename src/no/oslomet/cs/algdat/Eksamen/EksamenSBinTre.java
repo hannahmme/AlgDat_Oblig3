@@ -339,7 +339,7 @@ public class EksamenSBinTre<T> {
         //så lenge køen ikke er tom
         while(!koo.isEmpty()){
             //Punkt 1: Ta ut første fra køen
-            Node midlertidig = koo.removeFirst();
+            Node<T> midlertidig = koo.removeFirst();
 
             //Punkt 2: Legg til midlertidig sine to barn til køen
             if(midlertidig.venstre != null){
@@ -350,7 +350,11 @@ public class EksamenSBinTre<T> {
             }
 
             //Punkt 3: Legg til verdien i listen
-            serialisertNodeListe.add((T) midlertidig.verdi);
+            serialisertNodeListe.add(midlertidig.verdi);
+        }
+        //deserialize(serialisertNodeListe, comp);
+        for(Object verdi : serialisertNodeListe){
+            System.out.print(verdi + " ");
         }
         return serialisertNodeListe;
     }
@@ -358,12 +362,19 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 5
      *
-     * @param data
-     * @param c
-     * @param <K>
-     * @return
+     * @param data - Listen med data som skal legges i nivåorden i treet
+     * @param c - Av Comparator-interfacet med metoden compare().
+     * @param <K> - Generisk datatype
+     * @return - Returnerer et tre av klassen EksamenSBinTre
      */
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
+        EksamenSBinTre<K> deserialisertTre = new EksamenSBinTre<>(c);
+        for(int i = data.size(); i > 0; i--){
+            if(deserialisertTre.rot == null) {
+                deserialisertTre.rot = (Node<K>) data.get(i);
+
+            }
+        }
         return null;
     }
 
@@ -419,27 +430,32 @@ public class EksamenSBinTre<T> {
         System.out.println(treOppg1.antall());*/
 
         //Oppgave 2
-        Integer[] oppg2List = {10};
+        Integer[] oppg2List = {11,24,1,2,4,5};
         EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
         for (int verdi : oppg2List) treOppg2.leggInn(verdi);
         System.out.println("Antall forekomster av tallet 1");
         System.out.println(treOppg2.antall(1));
 
-        Integer[] oppg3List = {6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
-        for (int verdi : oppg3List) treOppg2.leggInn(verdi);
+        //Integer[] oppg3List = {6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
+        //for (int verdi : oppg3List) treOppg2.leggInn(verdi);
 
         //Oppgave 3
         System.out.println("Første post-orden");
         System.out.println(foorstePostorden(treOppg2.rot));
 
         System.out.println("Neste-post-orden");
-        System.out.println(nestePostorden(treOppg2.rot.venstre.hooyre.venstre));
+        System.out.println(nestePostorden(treOppg2.rot.venstre));
         System.out.println();
 
         System.out.println("Treet skrevet ut i post-orden");
-        System.out.println(treOppg2.toStringPostOrder());
+        //System.out.println(treOppg2.toStringPostOrder());
 
-        printLevelOrder(treOppg2.rot);
+        //printLevelOrder(treOppg2.rot);
+
+        System.out.println("Serialisering: ");
+        treOppg2.serialize();
+
+
 
     }
 } // ObligSBinTre
