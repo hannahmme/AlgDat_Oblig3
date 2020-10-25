@@ -1,7 +1,5 @@
 package no.oslomet.cs.algdat.Eksamen;
 
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class EksamenSBinTre<T> {
@@ -287,7 +285,6 @@ public class EksamenSBinTre<T> {
         return null;
     }
 
-
     /**
      * Oppgave 4
      *
@@ -305,7 +302,7 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 4
      *
-     * @param oppgave
+     * @param oppgave - Oppgave som skal utføres
      */
     public void postordenRecursive(Oppgave<? super T> oppgave) {
         postordenRecursive(rot, oppgave);
@@ -333,7 +330,7 @@ public class EksamenSBinTre<T> {
      * @return
      */
     public ArrayList<T> serialize() {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return new ArrayList<>(); 
     }
 
     /**
