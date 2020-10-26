@@ -211,6 +211,7 @@ public class EksamenSBinTre<T> {
      * Inspirasjon programkode 5.1.7 h) : https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#5.1.7
      */
     private static <T> Node<T> foorstePostorden(Node<T> p) {
+        if(p == null) return null;
         while (true) {
             //hvis det finnes et venstrebarn, gå til venstre
             if (p.venstre != null) p = p.venstre;
@@ -333,6 +334,9 @@ public class EksamenSBinTre<T> {
     public ArrayList<T> serialize() {
         ArrayDeque<Node> koo = new ArrayDeque<>();
         ArrayList<T> serialisertNodeListe = new ArrayList<>();
+
+        //dersom rot er null, returner tom liste
+        if(rot == null) return serialisertNodeListe;
 
         //legg til rot-noden
         koo.addLast(rot);
@@ -504,13 +508,15 @@ public class EksamenSBinTre<T> {
                 rot = null;
 
                 //legger til endringer
+                antall--;
                 endringer++;
-                return false;
+                return true;
             }
             //hvis p er et venstrebarn, settes foreldrenoden
             //sin venstrepeker lik null
             if(p == q.venstre){
                 q.venstre = null;
+                p.forelder = null;
 
                 //legger til endringer
                 endringer++;
@@ -520,6 +526,7 @@ public class EksamenSBinTre<T> {
             //sin høyrepeker lik null
             else{
                 q.hooyre = null;
+                p.forelder = null;
 
                 //legger til endringer
                 endringer++;
@@ -584,9 +591,9 @@ public class EksamenSBinTre<T> {
                 endringer++;
             }
 
-            //når vi har kommet så langt ned til venstre som mulig
-            //(funnet noden vi er på sin neste in-orden)
-            //bytter vi verdier
+            //når vi har funnet noden vi skal fjerne sin
+            //neste in-orden, setter vi noden som skal
+            //fjernes lik neste node in-orden
             p.verdi = r.verdi;
 
             //legger til endringer
@@ -670,7 +677,7 @@ public class EksamenSBinTre<T> {
        // treOppg2.serialize();
 
         EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        int[] a = {5,2,9,10,4};
+        int[] a = {5};
         for(int verdi : a) treOppg5.leggInn(verdi);
 
         System.out.println();
@@ -689,12 +696,21 @@ public class EksamenSBinTre<T> {
         System.out.println("Print level order treOppg5Deserialize : ");
         printLevelOrder(treOppg5Deserialize.rot);
 
-        treOppg5.leggInn(8);
+       // treOppg5.leggInn(8);
 
-        System.out.println("\nEtter å ha lagt inn 8 nivåorden:");
+      //  System.out.println("\nEtter å ha lagt inn 8 nivåorden:");
+        //System.out.println(treOppg5.serialize());
+
+        //treOppg5.fjern(9);
+        //System.out.println(treOppg5.toStringPostOrder());
+
+        treOppg5.fjern(5);
+
+        System.out.println("Etter å ha fjernet tallet 5");
         System.out.println(treOppg5.serialize());
 
-
+        System.out.println("Skriver ut tre i postOrden");
+        System.out.println(treOppg5.toStringPostOrder());
 
 
 
