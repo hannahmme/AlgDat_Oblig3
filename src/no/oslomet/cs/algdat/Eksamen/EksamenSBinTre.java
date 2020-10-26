@@ -460,7 +460,112 @@ public class EksamenSBinTre<T> {
      * @return
      */
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+
+        //treet har ingen nullverdier
+        if(verdi == null) return false;
+
+        //q skal være forelder til p
+        Node<T> p = rot;
+        Node<T> q = null;
+
+        //så lenge roten ikke er null, går vi inn og
+        //sammenlikner rot og verdi for å finne ut om
+        //vi skal gå til venstre eller høyre
+        while(p != null){
+            //sammenlikner
+            int compare = comp.compare(verdi, p.verdi);
+
+            //hvis verdien er mindre, gå til venstre subtre
+            if(compare < 0) {
+                q = p;
+                p = p.venstre;
+            }
+
+            //hvis verdien er større, gå til høyre subtre
+            else if(compare > 0) {
+                q = p;
+                p = p.hooyre;
+            }
+            //hvis ingen av delene, gå ut av while
+            else break;
+        }
+
+        //vi finner ikke verdien
+        if(p == null) return false;
+
+
+        //Tilfelle 1: p har ingen barnenoder
+        if(p.venstre == null && p.hooyre == null){
+            //verdien ligger i roten
+            if(p == rot){
+                return true;
+            }
+            //hvis p er et venstrebarn, settes foreldrenoden
+            //sin venstrepeker lik null
+            if(p == q.venstre){
+                q.venstre = null;
+            }
+
+            //dersom p er et høyrebarn, settes foreldrepekeren
+            //sin høyrepeker lik null
+            else{
+                q.hooyre = null;
+            }
+        }
+
+        //Tilfelle 2: p har enten et høyrebarn eller et venstrebarn
+        else if(p.venstre == null || p.hooyre == null){
+
+            //hvis venstrebarnet ikke er null, blir barnet satt til venstrebarnet
+            //hvis høyrebarnet ikke er null, blir barnet satt til høyrebarnet
+            Node<T> barn = p.venstre != null ? p.venstre : p.hooyre;
+
+            //hvis noden vi er på er lik roten,
+            //settes roten lik barnet
+            if(p == rot) rot = barn;
+
+            //hvis noden vi er på er det venstre barnet,
+            //setter vi forelderens venstre-peker til venstre eller
+            //høyrebarnet til noden vi er på
+            else if (p == q.venstre) q.venstre = barn;
+
+            //og omvendt, hvis noden vi er på er det høyre barnet
+            //settes forelderens høyrepeker til det høyre eller venstrebarnet
+            //til nodden vi er på
+            else q.hooyre = barn;
+        }
+        //Tilfelle 3: p har to barn
+        else{
+
+            //s er en kopi av p (noden vi har funnet)
+            Node<T> s = p;
+
+            //r blir høyrebarnet til p
+            Node<T> r = p.hooyre;
+
+            //så lenge det finnes et venstrebarn
+            //fra noden vi står på sitt høyrebarn
+            while(r.venstre != null){
+
+                //s er forelder til r
+                //vi forflytter oss nedover venstre subtre
+                s = r;
+                r = r.venstre;
+            }
+
+            //når vi har kommet så langt ned til venstre som mulig
+            //(funnet noden vi er på sin neste in-orden)
+            //bytter vi verdier
+            p.verdi = r.verdi;
+
+            if(s != p) s.venstre = r.hooyre;
+            else s.hooyre = r.hooyre;
+        }
+
+        antall--;
+        endringer++;
+        return true;
+
     }
 
     /**
