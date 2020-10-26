@@ -479,12 +479,14 @@ public class EksamenSBinTre<T> {
             if(compare < 0) {
                 q = p;
                 p = p.venstre;
+                endringer++;
             }
 
             //hvis verdien er større, gå til høyre subtre
             else if(compare > 0) {
                 q = p;
                 p = p.hooyre;
+                endringer++;
             }
             //hvis ingen av delene, gå ut av while
             else break;
@@ -497,19 +499,30 @@ public class EksamenSBinTre<T> {
         //Tilfelle 1: p har ingen barnenoder
         if(p.venstre == null && p.hooyre == null){
             //verdien ligger i roten
+            //setter rot lik null
             if(p == rot){
-                return true;
+                rot = null;
+
+                //legger til endringer
+                endringer++;
+                return false;
             }
             //hvis p er et venstrebarn, settes foreldrenoden
             //sin venstrepeker lik null
             if(p == q.venstre){
                 q.venstre = null;
+
+                //legger til endringer
+                endringer++;
             }
 
             //dersom p er et høyrebarn, settes foreldrepekeren
             //sin høyrepeker lik null
             else{
                 q.hooyre = null;
+
+                //legger til endringer
+                endringer++;
             }
         }
 
@@ -522,17 +535,32 @@ public class EksamenSBinTre<T> {
 
             //hvis noden vi er på er lik roten,
             //settes roten lik barnet
-            if(p == rot) rot = barn;
+            if(p == rot) {
+                rot = barn;
+
+                //legger til endringer
+                endringer++;
+            }
 
             //hvis noden vi er på er det venstre barnet,
             //setter vi forelderens venstre-peker til venstre eller
             //høyrebarnet til noden vi er på
-            else if (p == q.venstre) q.venstre = barn;
+            else if (p == q.venstre) {
+                q.venstre = barn;
+
+                //legger til endringer
+                endringer++;
+            }
 
             //og omvendt, hvis noden vi er på er det høyre barnet
             //settes forelderens høyrepeker til det høyre eller venstrebarnet
             //til nodden vi er på
-            else q.hooyre = barn;
+            else {
+                q.hooyre = barn;
+
+                //fjerner antall og legger til endringer
+                endringer++;
+            }
         }
         //Tilfelle 3: p har to barn
         else{
@@ -551,6 +579,9 @@ public class EksamenSBinTre<T> {
                 //vi forflytter oss nedover venstre subtre
                 s = r;
                 r = r.venstre;
+
+                //legger til endringer
+                endringer++;
             }
 
             //når vi har kommet så langt ned til venstre som mulig
@@ -558,7 +589,17 @@ public class EksamenSBinTre<T> {
             //bytter vi verdier
             p.verdi = r.verdi;
 
+            //legger til endringer
+            endringer++;
+
+            //hvis s ikke er lik p (noden vi skal fjerne)
+            //settes noden vi byttet med p lik høyrebarnet sitt
             if(s != p) s.venstre = r.hooyre;
+
+            //hvis s er lik p (noden vi skal fjerne)
+            //settes s sitt høyrebarn (p sitt høyrebarn, som vi
+            //i dette tilfellet byttet plass med noden vi skulle fjerne)
+            //lik sitt eget høyrebarn (null)
             else s.hooyre = r.hooyre;
         }
 
@@ -647,6 +688,12 @@ public class EksamenSBinTre<T> {
 
         System.out.println("Print level order treOppg5Deserialize : ");
         printLevelOrder(treOppg5Deserialize.rot);
+
+        treOppg5.leggInn(8);
+
+        System.out.println("\nEtter å ha lagt inn 8 nivåorden:");
+        System.out.println(treOppg5.serialize());
+
 
 
 
