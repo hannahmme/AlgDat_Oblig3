@@ -478,6 +478,7 @@ public class EksamenSBinTre<T> {
 
         //treet har ingen nullverdier
         if(verdi == null) return false;
+        if(rot == null) return false;
 
         //q skal være forelder til p
         Node<T> p = rot;
@@ -644,119 +645,44 @@ public class EksamenSBinTre<T> {
      * Inspirasjon fra kildekode: https://www.cs.hioa.no/~ulfu/appolonius/kap5/2/fasit528.html
      */
     public int fjernAlle(T verdi) {
-        if (verdi == null) {
-            return 0;
-        }
         int antallNoderFjernet = 0;
-        while(fjern(verdi)) antallNoderFjernet++;
+
+        if (verdi == null) {
+            return antallNoderFjernet;
+        }
+
+        //så lenge fjern-metoden returnerer true
+        //altså at den vellykket finner og fjerner verdien,
+        //forsetter den helt til den er false
+        while(fjern(verdi)) {
+            antall--;
+            endringer++;
+            antallNoderFjernet++;
+        }
         return antallNoderFjernet;
     }
 
 
     public static void main(String[] args) {
-/*
-*//*
-        //Oppgave 0
-        EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
-        System.out.println(tre.antall());
-
-        EksamenSBinTre<Integer> treInt = new EksamenSBinTre<>(Comparator.naturalOrder());
-        System.out.println(treInt.antall());
-        EksamenSBinTre<Character> treChar = new EksamenSBinTre<>(Comparator.naturalOrder());
-        System.out.println(treChar.antall());
-        EksamenSBinTre<Double> treDouble = new EksamenSBinTre<>(Comparator.naturalOrder());
-        System.out.println(treDouble.antall());
-*//*
-
-
-        //Oppgave 1
-  *//*      Integer[] a = {4,7,2,9,4,10,8,1,4,6};
-        EksamenSBinTre<Integer> treOppg1 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        for(int verdi: a) treOppg1.leggInn(verdi);
-        System.out.println();
-        System.out.println(treOppg1.antall());*//*
-
-        //Oppgave 2
-        Integer[] oppg2List = {11,24,1,2,4,5};
-        EksamenSBinTre<Integer> treOppg2 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        for (int verdi : oppg2List) treOppg2.leggInn(verdi);
-        System.out.println("Antall forekomster av tallet 1");
-        System.out.println(treOppg2.antall(1));
-
-        //Integer[] oppg3List = {6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
-        //for (int verdi : oppg3List) treOppg2.leggInn(verdi);
-
-        //Oppgave 3
-        System.out.println("Første post-orden");
-        System.out.println(foorstePostorden(treOppg2.rot));
-
-        System.out.println("Neste-post-orden");
-        System.out.println(nestePostorden(treOppg2.rot.venstre));
-        System.out.println();
-
-        System.out.println("Treet skrevet ut i post-orden");
-        //System.out.println(treOppg2.toStringPostOrder());
-
-        //printLevelOrder(treOppg2.rot);*/
-
-
-       // treOppg2.serialize();
 
         EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        int[] a = {6, 3, 9, 1, 5, 7, 10, 2, 4, 8, 11, 6, 8};
+     /*   int[] a = {};
         for(int verdi : a) treOppg5.leggInn(verdi);
-
+*/
         System.out.println();
 
         System.out.println("Serialisert på nivåorden: ");
         ArrayList<Integer> treOppg5Serialize = treOppg5.serialize();
         System.out.println(treOppg5Serialize);
 
+        int antallfjernet = treOppg5.fjernAlle(1);
+        System.out.println("\nAntall fjernet: " + antallfjernet);
 
-        System.out.println("\n");
-     /*   EksamenSBinTre<Integer> treOppg5Deserialize = EksamenSBinTre.deserialize(treOppg5Serialize, Comparator.naturalOrder());
-        System.out.println("DEtte er den som ikke er forståelig:");
-        System.out.println(treOppg5Deserialize);
-*/
-/*
-        System.out.println("Print level order treOppg5Deserialize : ");
-        printLevelOrder(treOppg5Deserialize.rot);*/
-
-       // treOppg5.leggInn(8);
-
-      //  System.out.println("\nEtter å ha lagt inn 8 nivåorden:");
-        //System.out.println(treOppg5.serialize());
-
-        //treOppg5.fjern(9);
-        //System.out.println(treOppg5.toStringPostOrder());
-
-
-        treOppg5.fjern(12);
-        treOppg5.fjern(2);
-        treOppg5.fjern(4);
-        treOppg5.fjern(6);
-        treOppg5.fjern(8);
-
-        System.out.println("Etter å ha fjernet tallet 12, 2, 4, 6, 8");
-        System.out.println(treOppg5.serialize());
-
-        System.out.println("\nSkriver ut tre i postOrden");
+        System.out.println("\nPost-orden etter fjerning av alle 1");
         System.out.println(treOppg5.toStringPostOrder());
 
-        System.out.println("\nLegger til tallet 9");
-        treOppg5.leggInn(9);
 
-        System.out.println("\nSkriver ut tre i postOrden med ekstra 9");
-        System.out.println(treOppg5.toStringPostOrder());
 
-        System.out.println("\nFjerner alle med verdi 9");
-        treOppg5.fjernAlle(9);
-
-        System.out.println("\nTreet på nivåorden etter fjerning av 9");
-        System.out.println(treOppg5.serialize());
-
-        System.out.println("\nSkriver ut tre i postOrden etter fjerning av alle 9");
-        System.out.println(treOppg5.toStringPostOrder());
 
 
     }
