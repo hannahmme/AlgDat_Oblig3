@@ -52,32 +52,36 @@ public class EksamenSBinTre<T> {
     public boolean leggInn(T verdi) {
         Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
 
-        Node<T> currentNodeWeStandOn = rot;
-        Node<T> nextNode = null;
-        int compareValue = 0;
+        //Starter i roten
+        Node<T> teller = rot;
 
-        //Så lenge noden vi er på har en verdi, sjekker vi om verdien vi skal sette
-        //inn i treet er større eller mindre enn node-verdien vi er på.
-        //Er den større, går vi til høyre barnenode
-        //Er den mindre, går vi til venstre barnenode
-        //Dersom venstre eller høyre barnenode ikke har verdi, går vi ut av
-        //while-løkken
-        while (currentNodeWeStandOn != null) {
-            nextNode = currentNodeWeStandOn;
-            compareValue = comp.compare(verdi, currentNodeWeStandOn.verdi);
+        //er forelder til teller-noden
+        Node<T> foreldreNode = null;
+
+        int compareValue = 0;
+        while (teller != null) {
+            foreldreNode = teller;
+            compareValue = comp.compare(verdi, teller.verdi);
+
+            //flytter oss til venstre om verdien er mindre enn 0
             if (compareValue < 0) {
-                currentNodeWeStandOn = currentNodeWeStandOn.venstre;
+                teller = teller.venstre;
+
+                //er verdien større eller lik, flytter vi oss til høyre
             } else {
-                currentNodeWeStandOn = currentNodeWeStandOn.hooyre;
+                teller = teller.hooyre;
             }
         }
 
-        //ute av while
-        //Her opprettes det en ny node i treet
-        currentNodeWeStandOn = new Node<>(verdi, nextNode);
-        if (nextNode == null) rot = currentNodeWeStandOn;
-        else if (compareValue < 0) nextNode.venstre = currentNodeWeStandOn;
-        else nextNode.hooyre = currentNodeWeStandOn;
+        //når vi finner en node som ikke har en verdi, opprettes det
+        //en ny node med verdien og foreldrenoden
+        teller = new Node<>(verdi, foreldreNode);
+
+        //hvis foreldrenoden er null, vil det si at treet ikke har noen rot
+        if (foreldreNode == null) rot = teller;
+
+        else if (compareValue < 0) foreldreNode.venstre = teller;
+        else foreldreNode.hooyre = teller;
 
         antall++;
         endringer++;
@@ -467,20 +471,21 @@ public class EksamenSBinTre<T> {
 
             //starter fra første postorden
             Node<T> nodeSomSkalFjernes = foorstePostorden(rot);
-            Node<T> midlertidig;
+            Node<T> neste = nodeSomSkalFjernes;
+
             while(nodeSomSkalFjernes != null){
-                //nuller ut eventuelle barn
-                nodeSomSkalFjernes.hooyre = null;
-                nodeSomSkalFjernes.venstre = null;
-                midlertidig = nodeSomSkalFjernes;
+
+
+                neste = nestePostorden(nodeSomSkalFjernes);
                 nodeSomSkalFjernes.verdi = null;
 
+                nodeSomSkalFjernes = neste;
                 //legger til antall og endringer
                 antall--;
                 endringer++;
 
                 //flytter til neste postorden i treet som skal fjernes
-                nodeSomSkalFjernes = nestePostorden(midlertidig);
+                //nodeSomSkalFjernes = nestePostorden(midlertidig);
             }
         }
     }
@@ -679,8 +684,6 @@ public class EksamenSBinTre<T> {
         //altså at den vellykket finner og fjerner verdien,
         //forsetter den helt til den er false
         while(fjern(verdi)) {
-            antall--;
-            endringer++;
             antallNoderFjernet++;
         }
         return antallNoderFjernet;
@@ -690,28 +693,58 @@ public class EksamenSBinTre<T> {
     public static void main(String[] args) {
 
         EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
-     /*   int[] a = {};
+        int[] a = {6, 3, 9, 1, 5, 7, 10, 2, 4, 8, 11, 6, 8};
         for(int verdi : a) treOppg5.leggInn(verdi);
-*/
-        System.out.println();
 
-        System.out.println("Serialisert på nivåorden: ");
-        ArrayList<Integer> treOppg5Serialize = treOppg5.serialize();
-        System.out.println(treOppg5Serialize);
-
-        int antallfjernet = treOppg5.fjernAlle(1);
-        System.out.println("\nAntall fjernet: " + antallfjernet);
-
-        System.out.println("\nPost-orden etter fjerning av alle 1");
+        System.out.println(treOppg5.toStringPostOrder());
+        treOppg5.fjern(2);
+        treOppg5.fjern(4);
+        treOppg5.fjern(6);
+        treOppg5.fjern(8);
         System.out.println(treOppg5.toStringPostOrder());
 
-        System.out.println("\nNå skal det nullstilles!!");
+        treOppg5.fjern(10);
+        treOppg5.fjern(11);
+        treOppg5.fjern(8);
+        treOppg5.fjern(7);
+
+        treOppg5.fjern(1);
+        treOppg5.fjern(3);
+        treOppg5.fjern(5);
+        treOppg5.fjern(9);
+
+        //6l
+        System.out.println(treOppg5.toStringPostOrder());
+
+
+        System.out.println("Antall : " + treOppg5.antall());
+
+        //6m
         treOppg5.nullstill();
 
-        System.out.println("\nNå skal treet være nullstilt:");
+        //6n
         System.out.println(treOppg5.toStringPostOrder());
 
+        //6o
+        treOppg5.nullstill();
 
+        //6p
+        System.out.println("\nFjern alle(0):");
+        treOppg5.fjernAlle(0);
+
+        //6q
+        System.out.println("\nLeggInn(0):");
+        treOppg5.leggInn(0);
+
+        System.out.println(treOppg5.toStringPostOrder());
+
+        treOppg5.fjernAlle(0);
+
+        System.out.println(treOppg5.toStringPostOrder());
+
+       // treOppg5.fjernAlle(0);
+
+        
 
     }
 } // ObligSBinTre
