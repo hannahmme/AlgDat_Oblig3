@@ -633,11 +633,29 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 6
      *
-     * @param verdi
-     * @return
+     * @param verdi - verdi som skal fjernes i treet. Gjelder alle
+     *                objekter i treet med denne verdien
+     * @return - returnerer antallet av verdien som ble fjernet
      */
     public int fjernAlle(T verdi) {
-        return 0; 
+        if (verdi == null) {
+            return 0;
+        }
+        //starter på rot-noden
+        Node<T> teller = foorstePostorden(rot);
+        int antallNoderFjernet = 0;
+
+        //frem til vi har gått gjennom treet
+        while (teller != null) {
+            if (teller == verdi) {
+                fjern(verdi);
+                antallNoderFjernet++;
+            }
+            //flytter telleren til neste verdi post-orden i treet
+            teller = nestePostorden(teller);
+
+        }
+        return antallNoderFjernet;
     }
 
 
@@ -731,6 +749,20 @@ public class EksamenSBinTre<T> {
         System.out.println("\nSkriver ut tre i postOrden");
         System.out.println(treOppg5.toStringPostOrder());
 
+        System.out.println("\nLegger til tallet 11");
+        treOppg5.leggInn(11);
+
+        System.out.println("\nSkriver ut tre i postOrden med ekstra 11");
+        System.out.println(treOppg5.toStringPostOrder());
+
+        System.out.println("\nFjerner alle med verdi 11");
+        treOppg5.fjernAlle(11);
+
+        System.out.println("\nTreet på nivåorden etter fjerning av 11");
+        System.out.println(treOppg5.serialize());
+
+        System.out.println("\nSkriver ut tre i postOrden etter fjerning av alle 11");
+        System.out.println(treOppg5.toStringPostOrder());
 
 
     }
