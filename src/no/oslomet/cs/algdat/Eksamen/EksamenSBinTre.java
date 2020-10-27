@@ -677,7 +677,7 @@ public class EksamenSBinTre<T> {
        // treOppg2.serialize();
 
         EksamenSBinTre<Integer> treOppg5 = new EksamenSBinTre<>(Comparator.naturalOrder());
-        int[] a = {5};
+        int[] a = {6, 3, 9, 1, 5, 7, 10, 2, 4, 8, 11, 6, 8};
         for(int verdi : a) treOppg5.leggInn(verdi);
 
         System.out.println();
@@ -688,13 +688,13 @@ public class EksamenSBinTre<T> {
 
 
         System.out.println("\n");
-        EksamenSBinTre<Integer> treOppg5Deserialize = EksamenSBinTre.deserialize(treOppg5Serialize, Comparator.naturalOrder());
+     /*   EksamenSBinTre<Integer> treOppg5Deserialize = EksamenSBinTre.deserialize(treOppg5Serialize, Comparator.naturalOrder());
         System.out.println("DEtte er den som ikke er forståelig:");
         System.out.println(treOppg5Deserialize);
-
-
+*/
+/*
         System.out.println("Print level order treOppg5Deserialize : ");
-        printLevelOrder(treOppg5Deserialize.rot);
+        printLevelOrder(treOppg5Deserialize.rot);*/
 
        // treOppg5.leggInn(8);
 
@@ -704,9 +704,13 @@ public class EksamenSBinTre<T> {
         //treOppg5.fjern(9);
         //System.out.println(treOppg5.toStringPostOrder());
 
-        treOppg5.fjern(5);
 
-        System.out.println("Etter å ha fjernet tallet 5");
+        treOppg5.fjern(12);
+        treOppg5.fjern(2);
+        treOppg5.fjern(4);
+        treOppg5.fjern(6);
+
+        System.out.println("Etter å ha fjernet tallet 12, 2, 4, 6");
         System.out.println(treOppg5.serialize());
 
         System.out.println("Skriver ut tre i postOrden");
