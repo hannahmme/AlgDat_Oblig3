@@ -553,6 +553,7 @@ public class EksamenSBinTre<T> {
             //settes roten lik barnet
             if(p == rot) {
                 rot = barn;
+                barn.forelder = null;
 
                 //legger til endringer
                 endringer++;
@@ -563,6 +564,7 @@ public class EksamenSBinTre<T> {
             //høyrebarnet til noden vi er på
             else if (p == q.venstre) {
                 q.venstre = barn;
+                barn.forelder = q;
 
                 //legger til endringer
                 endringer++;
@@ -573,6 +575,7 @@ public class EksamenSBinTre<T> {
             //til nodden vi er på
             else {
                 q.hooyre = barn;
+                barn.forelder = q;
 
                 //fjerner antall og legger til endringer
                 endringer++;
@@ -718,11 +721,12 @@ public class EksamenSBinTre<T> {
         treOppg5.fjern(2);
         treOppg5.fjern(4);
         treOppg5.fjern(6);
+        treOppg5.fjern(8);
 
-        System.out.println("Etter å ha fjernet tallet 12, 2, 4, 6");
+        System.out.println("Etter å ha fjernet tallet 12, 2, 4, 6, 8");
         System.out.println(treOppg5.serialize());
 
-        System.out.println("Skriver ut tre i postOrden");
+        System.out.println("\nSkriver ut tre i postOrden");
         System.out.println(treOppg5.toStringPostOrder());
 
 
