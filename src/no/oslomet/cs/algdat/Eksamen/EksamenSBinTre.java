@@ -469,8 +469,10 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 6
      *
-     * @param verdi
-     * @return
+     * @param verdi - verdi som skal fjernes i treet
+     * @return - returnerer true om fjerningen er vellykket,
+     *           false dersom verdien ikke finnes i treet eller
+     *           mislykket fjerning.
      */
     public boolean fjern(T verdi) {
 
@@ -635,7 +637,7 @@ public class EksamenSBinTre<T> {
      * @return
      */
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennaa!");
+        return 0; 
     }
 
 
