@@ -463,7 +463,26 @@ public class EksamenSBinTre<T> {
      * Oppgave 6
      */
     public void nullstill() {
+        if(rot != null) {
 
+            //starter fra første postorden
+            Node<T> nodeSomSkalFjernes = foorstePostorden(rot);
+            Node<T> midlertidig;
+            while(nodeSomSkalFjernes != null){
+                //nuller ut eventuelle barn
+                nodeSomSkalFjernes.hooyre = null;
+                nodeSomSkalFjernes.venstre = null;
+                midlertidig = nodeSomSkalFjernes;
+                nodeSomSkalFjernes.verdi = null;
+
+                //legger til antall og endringer
+                antall--;
+                endringer++;
+
+                //flytter til neste postorden i treet som skal fjernes
+                nodeSomSkalFjernes = nestePostorden(midlertidig);
+            }
+        }
     }
 
     /**
@@ -651,6 +670,11 @@ public class EksamenSBinTre<T> {
             return antallNoderFjernet;
         }
 
+        //hvis treet er tomt, returner 0
+        if(tom()){
+            return 0;
+        }
+
         //så lenge fjern-metoden returnerer true
         //altså at den vellykket finner og fjerner verdien,
         //forsetter den helt til den er false
@@ -681,7 +705,11 @@ public class EksamenSBinTre<T> {
         System.out.println("\nPost-orden etter fjerning av alle 1");
         System.out.println(treOppg5.toStringPostOrder());
 
+        System.out.println("\nNå skal det nullstilles!!");
+        treOppg5.nullstill();
 
+        System.out.println("\nNå skal treet være nullstilt:");
+        System.out.println(treOppg5.toStringPostOrder());
 
 
 
