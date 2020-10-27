@@ -264,6 +264,15 @@ public class EksamenSBinTre<T> {
                     while (foreldreNode.venstre != null) {
                         foreldreNode = foreldreNode.venstre;
                     }
+                    //hvis barnet nederst til venstre har et høyrebarn,
+                    //går vi nederst til dette barnet og da dette er neste
+                    //post-orden
+                    if(foreldreNode.hooyre != null){
+                        while(foreldreNode.hooyre != null){
+                            foreldreNode = foreldreNode.hooyre;
+                        }
+                        return foreldreNode;
+                    }
                     //returnerer det nederste, venstre barnet
                     return foreldreNode;
                 }
