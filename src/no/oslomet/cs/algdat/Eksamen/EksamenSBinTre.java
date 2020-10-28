@@ -75,7 +75,7 @@ public class EksamenSBinTre<T> {
 
         //når vi finner en node som ikke har en verdi, opprettes det
         //en ny node med verdien og foreldrenoden
-        teller = new Node<>(verdi, foreldreNode);
+            teller = new Node<>(verdi, foreldreNode);
 
         //hvis foreldrenoden er null, vil det si at treet ikke har noen rot
         if (foreldreNode == null) rot = teller;
@@ -340,16 +340,17 @@ public class EksamenSBinTre<T> {
     }
 
     /**
+     * //Todo: Fikse return
      * Oppgave 5
      *
-     * @return
+     * @return - returnerer null
      */
     public ArrayList<T> serialize() {
         ArrayDeque<Node> koo = new ArrayDeque<>();
         ArrayList<T> serialisertNodeListe = new ArrayList<>();
 
         //dersom rot er null, returner tom liste
-        if(rot == null) return serialisertNodeListe;
+        if(rot == null) return null;
 
         //legg til rot-noden
         koo.addLast(rot);
@@ -467,26 +468,34 @@ public class EksamenSBinTre<T> {
      * Oppgave 6
      */
     public void nullstill() {
+        if(tom()){
+            return;
+        }
         if(rot != null) {
-
             //starter fra første postorden
             Node<T> nodeSomSkalFjernes = foorstePostorden(rot);
-            Node<T> neste = nodeSomSkalFjernes;
+            Node<T> neste ;
 
             while(nodeSomSkalFjernes != null){
-
-
+                //lagrer neste post-orden før node-verdien
+                //vi står på blir nullet ut
                 neste = nestePostorden(nodeSomSkalFjernes);
                 nodeSomSkalFjernes.verdi = null;
+                nodeSomSkalFjernes.venstre = null;
+                nodeSomSkalFjernes.hooyre = null;
 
-                nodeSomSkalFjernes = neste;
                 //legger til antall og endringer
                 antall--;
                 endringer++;
 
                 //flytter til neste postorden i treet som skal fjernes
-                //nodeSomSkalFjernes = nestePostorden(midlertidig);
+                nodeSomSkalFjernes = neste;
+
             }
+            //når nodeSomSkalFjernes == null, betyr det at vi
+            //har travsert gjennom treet i postorden
+            //og står på roten
+            rot = null;
         }
     }
 
@@ -701,6 +710,7 @@ public class EksamenSBinTre<T> {
         treOppg5.fjern(4);
         treOppg5.fjern(6);
         treOppg5.fjern(8);
+
         System.out.println(treOppg5.toStringPostOrder());
 
         treOppg5.fjern(10);
@@ -742,9 +752,19 @@ public class EksamenSBinTre<T> {
 
         System.out.println(treOppg5.toStringPostOrder());
 
-       // treOppg5.fjernAlle(0);
+       treOppg5.fjernAlle(0);
 
-        
+       treOppg5.leggInn(0);
+
+        System.out.println(treOppg5.toStringPostOrder());
+
+        treOppg5.nullstill();
+
+        System.out.println(treOppg5.toStringPostOrder());
+
+        treOppg5.nullstill();
+
+
 
     }
 } // ObligSBinTre
