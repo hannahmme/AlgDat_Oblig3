@@ -120,7 +120,7 @@ public class EksamenSBinTre<T> {
 
 
     /**
-     * Ferdig kodet metode
+     * (Ferdig kodet fra før)
      *
      * @return - returnerer en String av treet i postOrder-rekkefølge
      */
@@ -188,7 +188,6 @@ public class EksamenSBinTre<T> {
      * Inspirasjon programkode 5.1.7 h) : https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#5.1.7
      */
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        if(p == null) return null;
         while (true) {
             //hvis det finnes et venstrebarn, gå til venstre
             if (p.venstre != null) p = p.venstre;
@@ -204,7 +203,7 @@ public class EksamenSBinTre<T> {
     /**
      * Oppgave 3
      *
-     * @param p   - rot
+     * @param p  - rot
      * @param <T> - generisk datatype
      * @return - returnerer neste noden i rekken etter første node i postorden
      * Inspirasjon hentet fra 5.1.7: https://www.cs.hioa.no/~ulfu/appolonius/kap5/1/kap51.html#kode.5.1.7.h
@@ -324,7 +323,7 @@ public class EksamenSBinTre<T> {
         ArrayList<T> serialisertNodeListe = new ArrayList<>();
 
         //dersom rot er null, returner tom liste
-        if(rot == null) return null;
+        if(rot == null) return serialisertNodeListe;
 
         //legg til rot-noden
         kø.addLast(rot);
