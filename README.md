@@ -1,7 +1,7 @@
 # Mappeeksamen i Algoritmer og Datastrukturer Høst 2020
 
 Jeg har brukt git til å dokumentere arbeidet mitt under denne eksamenen.
-Jeg har X commits totalt, og jeg har skrevet en passende beskjed som beskriver
+Jeg har 51 commits totalt, og jeg har skrevet en passende beskjed som beskriver
 hver commit. 
 
 #Oppgavebeskrivelse:
